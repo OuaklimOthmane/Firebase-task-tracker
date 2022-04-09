@@ -22,8 +22,9 @@ function useHttp() {
       applyData(data);
     } catch (err) {
       setError(err.message || "Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   return {
