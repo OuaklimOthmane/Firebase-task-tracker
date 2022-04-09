@@ -23,41 +23,16 @@ function App() {
     isLoading,
     error,
     sendRequest: fetchTasks,
-  } = useHttp({
-    url: "https://react-tasks-tracker-default-rtdb.firebaseio.com/tasks.json",
-    transformTask,
-  });
-
-  // const fetchTasks = async (taskText) => {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await fetch(
-  //       "https://react-tasks-tracker-default-rtdb.firebaseio.com/tasks.json"
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error("Request failed!");
-  //     }
-
-  //     const data = await response.json();
-
-  //     const loadedTasks = [];
-
-  //     for (const taskKey in data) {
-  //       loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-  //     }
-
-  //     setTasks(loadedTasks);
-  //   } catch (err) {
-  //     setError(err.message || "Something went wrong!");
-  //   }
-  //   setIsLoading(false);
-  // };
+  } = useHttp(
+    {
+      url: "https://react-tasks-tracker-default-rtdb.firebaseio.com/tasks.json",
+    },
+    transformTask
+  );
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [fetchTasks]); //? functions are objects in JavaScript. And every time a function is recreated even if it contains the same logic, it's a brand new object in memory and therefore "useEffect" would treat it as a new value, even if it's technically the same function and it would re execute it.So to avoid this, we should go to "useHttp" and wrap "sendRequest" with use "callback()"
 
   const taskAddHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
