@@ -12,6 +12,7 @@ const TaskForm = (props) => {
 
     if (enteredValue.trim().length > 0) {
       props.onEnterTask(enteredValue);
+      taskInputRef.current.value = ""; //* operationel but should not dealing directly with the real DOM
     }
   };
 
